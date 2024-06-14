@@ -1,0 +1,21 @@
+# Typo fixers
+alias cls="clear"
+
+# Actual Aliases
+alias k="kubectl"
+alias mks="minikube start"
+alias mke="eval $(minikube -p minikube docker-env)"
+alias enablesleep="sudo pmset -a disablesleep 0"
+alias disablesleep="sudo pmset -a disablesleep 1"
+
+cd () { builtin cd "$@" && changeNodeVersion; }
+
+# Changes the node version if the project uses node
+changeNodeVersion () {
+	if [ -e ".nvmrc" ]; then
+		if [[ "v$(cat .nvmrc)" != $(nvm current) ]]; then
+    		echo "$fg[yellow]⚒︎ Current node version does not match project version. Changing node version...$reset_color"
+				nvm use
+		fi
+	fi
+}
