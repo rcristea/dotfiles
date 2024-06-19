@@ -9,37 +9,54 @@ alias enablesleep="sudo pmset -a disablesleep 0"
 alias disablesleep="sudo pmset -a disablesleep 1"
 alias startssh="eval "$(ssh-agent -s)""
 alias yf="yarn install --frozen-lockfile"
-alias ccb="nx run-many -t build"
-alias ccs="nx serve"
+alias c="open https://google.com"
+
+alias calypso-test="nx run-many --all --target=test"
+alias calypso-build="nx run-many -t build"
+alias calypso-serve="nx serve $1"
+
+alias copy-excludes="pbcopy *.test.*, *.spec.*, *.md, *.yaml, *.cjs, *.config.*"
+alias copy-includes="pbcopy none"i
 
 cd () { builtin cd "$@" && changeNodeVersion; }
 KIT () { kit; }
 
 # Changes the node version if the project uses node
 changeNodeVersion () {
-        if [ -e ".nvmrc" ]; then
-                if [[ "v$(cat .nvmrc)" == $(nvm current) || "v$(cat .nvmrc).0" == $(nvm current) ]]; then
-
-                else
-                        echo "$fg[yellow]⚒︎ Node version does not match project. Changing version...$reset_color"
-                        nvm use
-                fi
-        fi
+	if [ -e ".nvmrc" ]; then
+		if [[ "v$(cat .nvmrc)" == $(nvm current) || "v$(cat .nvmrc).0" == $(nvm current) ]]; then
+			
+		else
+    			echo "$fg[yellow]⚒︎ Node version does not match project. Changing version...$reset_color"
+			nvm use
+		fi
+	fi
 }
 
 updateDockBehaviour() {
-        defaults write com.apple.dock autohide-delay -int 0
-        defaults write com.apple.dock autohide-time-modifier -float 0.25
-        killall Dock
+	defaults write com.apple.dock autohide-delay -int 0
+	defaults write com.apple.dock autohide-time-modifier -float 0.25
+	killall Dock
 }
 
 # Opens JIRA Kitchen Board at the specified ticket number
 kit() {
-        if [[ $# -eq 0 ]]; then
-                open https://jira.ncr.com/secure/RapidBoard.jspa\?rapidView=59357&projectKey=KIT
-        else
-                for ticketNumber in "$@"; do
-                        open https://jira.ncr.com/browse/KIT-"$ticketNumber"
-                done
-        fi
+	if [[ $# -eq 0 ]]; then
+		open https://jira.ncr.com/secure/RapidBoard.jspa\?rapidView=59357&projectKey=KIT
+	elif [[ "$1" = "me" ]]; then
+		open https://jira.ncr.com/secure/RapidBoard.jspa\?rapidView=59357\&view=planning\&quickFilter=120875\&issueLimit=100
+	else
+		for ticketNumber in "$@"; do
+  			open https://jira.ncr.com/browse/KIT-"$ticketNumber"
+		done
+	fi
+}
+
+# displays a list of useful vim shortcuts
+vimcheats() {
+	if [[ $# -eq 0 ]]; then
+		cat /Users/rc185404/.hacks/vimcheats.txt
+	else
+		cat /users/rc185404/.hacks/vimcheats.txt | grep "$@"
+	fi
 }
