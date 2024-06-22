@@ -16,7 +16,7 @@ alias calypso-build="nx run-many -t build"
 alias calypso-serve="nx serve $1"
 
 alias copy-excludes="pbcopy *.test.*, *.spec.*, *.md, *.yaml, *.cjs, *.config.*"
-alias copy-includes="pbcopy none"i
+alias copy-includes="pbcopy none"
 
 cd () { builtin cd "$@" && changeNodeVersion; }
 KIT () { kit; }
